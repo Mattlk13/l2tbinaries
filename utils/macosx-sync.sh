@@ -34,7 +34,7 @@ do
     BASENAME=`echo ${FILE} | sed 's/-[0-9].*$//'`;
     EXISTING_FILE=`ls -1 macosx/${BASENAME}-* 2> /dev/null`;
 
-    if ! test -z ${EXISTING_FILE};
+    if ! test -z "${EXISTING_FILE}";
     then
       echo "Removing old file: macosx/${EXISTING_FILE}";
       git rm -f ${EXISTING_FILE}
