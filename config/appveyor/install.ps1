@@ -3,7 +3,7 @@
 $Output = Invoke-Expression -Command "git clone https://github.com/log2timeline/l2tdevtools.git ..\l2tdevtools 2>&1"
 Write-Host (${Output} | Out-String)
 
-If ($env:APPVEYOR_REPO_BRANCH -eq "master" )
+If ($env:APPVEYOR_REPO_BRANCH -eq "master")
 {
 	$Track = "stable"
 }
