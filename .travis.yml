@@ -1,0 +1,19 @@
+language: python
+matrix:
+  include:
+  - os: linux
+    dist: trusty
+    sudo: required
+    python: 2.7
+  - os: linux
+    dist: trusty
+    sudo: required
+    python: 3.4
+  - os: osx
+    language: generic
+    env: PYTHONPATH=/Library/Python/2.7/site-packages/
+install:
+  - ./utils/travis.sh
+script:
+  - git clone https://github.com/log2timeline/plaso.git
+  - cd plaso && ./utils/check_dependencies.py
