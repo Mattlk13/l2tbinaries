@@ -1,0 +1,47 @@
+environment:
+  matrix:
+  - DESCRIPTION: "l2tbinaries builds on Windows with Python 3.8 32-bit"
+    TARGET: l2tbinaries
+    MACHINE_TYPE: "x86"
+    PYTHON: "C:\\Python38"
+  - DESCRIPTION: "l2tbinaries builds on Windows with Python 3.8 64-bit"
+    TARGET: l2tbinaries
+    MACHINE_TYPE: "amd64"
+    PYTHON: "C:\\Python38-x64"
+  - DESCRIPTION: "l2tbinaries builds on Windows with Python 3.9 32-bit"
+    TARGET: l2tbinaries
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    MACHINE_TYPE: "x86"
+    PYTHON: "C:\\Python39"
+  - DESCRIPTION: "l2tbinaries builds on Windows with Python 3.9 64-bit"
+    TARGET: l2tbinaries
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    MACHINE_TYPE: "amd64"
+    PYTHON: "C:\\Python39-x64"
+  - DESCRIPTION: "Source on Windows with Python 3.8 32-bit"
+    TARGET: gitsource_plaso
+    MACHINE_TYPE: "x86"
+    PYTHON: "C:\\Python38"
+  - DESCRIPTION: "Source on Windows with Python 3.8 64-bit"
+    TARGET: gitsource_plaso
+    MACHINE_TYPE: "amd64"
+    PYTHON: "C:\\Python38-x64"
+  - DESCRIPTION: "Source on Mac OS with Python 3.8"
+    BUILD_ENVIRONMENT: python
+    APPVEYOR_BUILD_WORKER_IMAGE: macos
+    HOMEBREW_NO_INSTALL_CLEANUP: 1
+
+install:
+- cmd: IF EXIST "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" (
+    "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x86 /release )
+- cmd: "%PYTHON%\\python.exe -m pip install --upgrade pip"
+- cmd: "%PYTHON%\\python.exe -m pip install pypiwin32 WMI"
+- cmd: "%PYTHON%\\python.exe %PYTHON%\\Scripts\\pywin32_postinstall.py -install"
+- ps: If ($isWindows) { .\config\appveyor\install.ps1 }
+- sh: config/appveyor/install.sh
+
+build: off
+
+test_script:
+- ps: If ($isWindows) { .\config\appveyor\runtests.ps1 }
+- sh: config/appveyor/runtests.sh
